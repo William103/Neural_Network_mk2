@@ -1,28 +1,29 @@
 #include "network.h"
 
 #include <cstring>
+#include <iostream>
 
-Network::Network(int *architecture, int depth, double random_limit, double (**f_activations)(double),
+Network::Network(int *architecture, int depth, double (**f_activations)(double),
                  double (**d_f_activations)(double), double (*f_cost)(double, double),
                  double (*d_f_cost)(double, double), double *read_data, double *write_data) :
                      architecture(architecture), depth(depth),
-                     random_limit(random_limit), f_activations(f_activations),
+                     f_activations(f_activations),
                      d_f_activations(d_f_activations), f_cost(f_cost), d_f_cost(d_f_cost), 
                      read_data(read_data), write_data(write_data)
 {
-    int number_of_weights = 0;
+    num_weights = 0;
     num_neurons = architecture[0];
     for (int i = 1; i < depth; i++) {
         num_neurons += architecture[i];
-        number_of_weights += architecture[i-1] * architecture[i];
+        num_weights += architecture[i-1] * architecture[i];
     }
     neuron_inputs = new double[num_neurons * 3];
     activations = neuron_inputs + num_neurons;
     deltas = neuron_inputs + num_neurons * 2;
     read_weights = read_data;
-    read_biases = read_data + number_of_weights;
+    read_biases = read_data + num_weights;
     write_weights = write_data;
-    write_biases = write_data + number_of_weights;
+    write_biases = write_data + num_weights;
     weight_layers = new int[depth];
     neuron_layers = new int[depth];
     neuron_layers[0] = 0;
@@ -38,7 +39,6 @@ Network::~Network()
     delete[] neuron_inputs;
     delete[] weight_layers;
     delete[] neuron_layers;
-    delete[] deltas;
 }
 
 double *Network::prop(double *input)
@@ -62,9 +62,18 @@ double *Network::prop(double *input)
 
 double Network::back_prop(double *input, double *output, double training_rate)
 {
+    double error = 0;
     for (int i = 0; i < architecture[depth-1]; i++) {
         deltas[neuron_layers[depth-1]+i] += d_f_cost(activations[neuron_layers[depth-1]+i], output[i]) *
             d_f_activations[depth-2](neuron_inputs[neuron_layers[depth-1]+i] + read_biases[neuron_layers[depth-1]+i]);
+
+        write_biases[neuron_layers[depth-1]+i] -= training_rate * deltas[neuron_layers[depth-1]+i];
+    
+        // TODO: Mutex stuff
+        for (int m = 0; m < architecture[depth-2]; m++) {
+            write_weights[weight_layers[depth-2] + m * architecture[depth-1] + i] -=
+                training_rate * activations[neuron_layers[depth-2] + m] * deltas[neuron_layers[depth-1]+i];
+        }
     }
     for (int i = depth - 2; i >= 0; i--) {
         for (int j = 0; j < architecture[i]; j++) {
@@ -86,6 +95,35 @@ double Network::back_prop(double *input, double *output, double training_rate)
             }
         }
     }
-    // TODO: return error
-    return 0;
+    for (int i = 0; i < architecture[depth-1]; i++) {
+        error += f_cost(activations[neuron_layers[depth-1]+i], output[i]);
+    }
+    return error / architecture[depth-1];
+}
+
+void Network::train(double training_rate, int epochs, int batch_size, double **inputs, double **outputs, int n_inputs)
+{
+    double *output;
+    double error;
+    for (int i = 0; i < epochs; i++) {
+        error = 0;
+        for (int j = 0; j < n_inputs; j++) {
+            output = prop(inputs[j]);
+            error += back_prop(inputs[j], outputs[j], training_rate);
+            if ((j+1) % batch_size == 0) {
+                update();
+            }
+            for (int k = 0; k < architecture[depth - 1]; k++) {
+                std::cout << output[k] << ' ';
+            }
+            std::cout << std::endl;
+        }
+        error /= n_inputs;
+        std::cout << "Epoch #" << i << " Error: " << error << std::endl;
+    }
+}
+
+void Network::update()
+{
+    std::memcpy(read_data, write_data, num_weights + num_neurons);
 }

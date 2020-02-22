@@ -14,8 +14,6 @@ public:
      *          An array of ints describing the number of neurons per layer
      *      @param depth:
      *          The depth of the network, also the length of architecture
-     *      @param random_limit:
-     *          The weights and biases will be chosen randomly from -random_limit/2 to random_limit/2
      *      @param f_activations:
      *          An array of length depth-1 of function pointers to functions of
      *          doubles returning doubles (the activation functions)
@@ -26,7 +24,7 @@ public:
      *      @param d_f_cost:
      *          A pointer to the derivative of the cost function to be used
      */
-    Network(int *architecture, int depth, double random_limit, double (**f_activations)(double),
+    Network(int *architecture, int depth, double (**f_activations)(double),
             double (**d_f_activations)(double), double (*f_cost)(double, double),
             double (*d_f_cost)(double, double), double *read_data, double *write_data);
 
@@ -57,15 +55,15 @@ public:
      */
     double back_prop(double *input, double *output, double training_rate);
 
+    // returns final error
+    void train(double training_rate, int epochs, int batch_size, double **inputs, double **outputs, int n_inputs);
+
 private:
     // array of ints representing the structure of the network
     int *architecture;
 
     // the depth of the network, i.e. length of architecture
     int depth;
-
-    // weights and biases generated in [-random_limit/2, random_limit/2]
-    double random_limit;
 
     // the activation functions in an array
     double (**f_activations)(double);
@@ -104,6 +102,9 @@ private:
     int *weight_layers;
     int *neuron_layers;
     int num_neurons;
+    int num_weights;
+
+    void update();
 };
 
 #endif
