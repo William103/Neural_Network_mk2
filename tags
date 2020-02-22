@@ -1,0 +1,22 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.9~svn20110310	//
+NETWORK_H	network.h	2;"	d
+Network	network.h	/^class Network$/;"	c
+activations	network.h	/^    double *activations;$/;"	m	class:Network
+architecture	network.h	/^    int *architecture;$/;"	m	class:Network
+biases	network.h	/^    double *biases;$/;"	m	class:Network
+d_f_activations	network.h	/^    double (**d_f_activations)(double);$/;"	m	class:Network
+d_f_cost	network.h	/^    double (*d_f_cost)(double, double);$/;"	m	class:Network
+depth	network.h	/^    int depth;$/;"	m	class:Network
+f_activations	network.h	/^    double (**f_activations)(double);$/;"	m	class:Network
+f_cost	network.h	/^    double (*f_cost)(double, double);$/;"	m	class:Network
+layers	network.h	/^    double **layers;$/;"	m	class:Network
+neuron_inputs	network.h	/^    double *neuron_inputs;$/;"	m	class:Network
+random_limit	network.h	/^    double random_limit;$/;"	m	class:Network
+read_data	network.h	/^    double *read_data;$/;"	m	class:Network
+weights	network.h	/^    double *weights;$/;"	m	class:Network
+write_data	network.h	/^    double *write_data;$/;"	m	class:Network

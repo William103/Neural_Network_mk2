@@ -28,7 +28,7 @@ public:
      */
     Network(int *architecture, int depth, double random_limit, double (**f_activations)(double),
             double (**d_f_activations)(double), double (*f_cost)(double, double),
-            double (*d_f_cost)(double, double));
+            double (*d_f_cost)(double, double), double *read_data, double *write_data);
 
     /*
      * The deconstructor: does typical deconstructor things, i.e. clears up dynamic data
@@ -70,41 +70,40 @@ private:
     // the activation functions in an array
     double (**f_activations)(double);
 
-    // the derivatives of the activation functions in an array
+    // the derivative of the activation functions
     double (**d_f_activations)(double);
 
-    // a pointer to all the networks data: i.e. weights, biases, activations, and inputs
-    double *data;
+    // the pre-allocated data to be read from
+    double *read_data;
 
-    // a pointer to all the delta data NOTE: will NOT be allocated by Network to facilitate multithreading
-    double *delta_data;
+    // the pre-allocated data to be written to
+    double *write_data;
 
-    // a pointer to the start of the weights within data
-    double *weights;
+    double *read_weights;
 
-    // a pointer to the start of the biases within data
-    double *biases;
+    double *read_biases;
 
-    // a pointer to the start of the delta_weights within delta_data
-    double *delta_weights;
+    double *write_weights;
 
-    // a pointer to the start of the delta_biases within delta_data
-    double *delta_biases;
+    double *write_biases;
 
-    // an array of pointers to the starts of the layers within data
     double **layers;
 
-    // a pointer to the start of the activations within data
     double *activations;
 
-    // a pointer to the start of the inputs within data
     double *neuron_inputs;
+
+    double *deltas;
 
     // the cost function
     double (*f_cost)(double, double);
 
     // the derivative of the cost function
     double (*d_f_cost)(double, double);
-}
+
+    int *weight_layers;
+    int *neuron_layers;
+    int num_neurons;
+};
 
 #endif
