@@ -9,10 +9,13 @@ $(TARGET): $(OFILES) $(TARGET).o
 %.o: %.cpp
 	$(CXX) $(CXXFLAGS) -c -o $@ $<
 
-PHONY: clean run
+PHONY: clean run all
 
 clean:
 	rm *.o $(TARGET)
 
 run:
 	./$(TARGET)
+
+all:
+	make $(TARGET)

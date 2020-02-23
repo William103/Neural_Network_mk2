@@ -1,20 +1,19 @@
 #include <iostream>
 #include <ctime>
-#include "network.h"
 #include "utils.h"
+#include "network.h"
 
 int main() {
-    // TODO: change to be based on time
     std::srand((unsigned) time(NULL));
     int architecture[] = {2, 5, 5, 1};
     int depth = 4;
-    double   (*f_activations[])(double) = {sigmoid,   sigmoid,   sigmoid};
-    double (*d_f_activations[])(double) = {d_sigmoid, d_sigmoid, d_sigmoid};
-    double   (*f_cost)(double, double)  =   squared_error;
-    double (*d_f_cost)(double, double)  = d_squared_error;
-    double random_limit = 50;
+    double   (*f_activations[])(double) = {&sigmoid,   &sigmoid,   &sigmoid};
+    double (*d_f_activations[])(double) = {&d_sigmoid, &d_sigmoid, &d_sigmoid};
+    double   (*f_cost)(double, double)  =   &squared_error;
+    double (*d_f_cost)(double, double)  = &d_squared_error;
+    double random_limit = 1;
     double training_rate = 1;
-    int epochs = 5;
+    int epochs = 10;
     int batch_size = 4;
     int n_inputs = 4;
     int number_of_weights = 0;

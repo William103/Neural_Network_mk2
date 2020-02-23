@@ -103,20 +103,21 @@ double Network::back_prop(double *input, double *output, double training_rate)
 
 void Network::train(double training_rate, int epochs, int batch_size, double **inputs, double **outputs, int n_inputs)
 {
-    double *output;
+    double *y_hat;
     double error;
     for (int i = 0; i < epochs; i++) {
         error = 0;
         for (int j = 0; j < n_inputs; j++) {
-            output = prop(inputs[j]);
+            y_hat = prop(inputs[j]);
+            for (int k = 0; k < architecture[depth - 1]; k++) {
+                std::cout << y_hat[k] << ' ';
+            }
+            std::cout << std::endl;
+
             error += back_prop(inputs[j], outputs[j], training_rate);
             if ((j+1) % batch_size == 0) {
                 update();
             }
-            for (int k = 0; k < architecture[depth - 1]; k++) {
-                std::cout << output[k] << ' ';
-            }
-            std::cout << std::endl;
         }
         error /= n_inputs;
         std::cout << "Epoch #" << i << " Error: " << error << std::endl;

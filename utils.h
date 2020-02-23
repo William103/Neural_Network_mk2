@@ -1,7 +1,7 @@
 #include <cmath>
 
 double sigmoid(double x) {
-    return 1 / (1 + std::exp(-x));
+    return 1 / (1 + std::exp((double) -x));
 }
 
 double d_sigmoid(double x) {
