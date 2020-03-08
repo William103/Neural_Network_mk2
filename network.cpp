@@ -43,7 +43,7 @@ Network::~Network()
 
 double *Network::prop(double *input)
 {
-    std::memset(neuron_inputs, 0, num_neurons * 3);
+    std::memset(neuron_inputs, 0, num_neurons * 3 * sizeof(double));
     std::memcpy(neuron_inputs, input, architecture[0] * sizeof(double));
     std::memcpy(activations, neuron_inputs, architecture[0] * sizeof(double));
     for (int i = 1; i < depth; i++) {
@@ -53,9 +53,6 @@ double *Network::prop(double *input)
                     activations[j + neuron_layers[i-1]] *
                     read_weights[weight_layers[i-1] + j * architecture[i] + k];
             } 
-            // TODO: In GDB, I found out this doesn't get executed for the final
-            // neuron, meaning that the output is always <something>, 0 no
-            // matter the input
             activations[k + neuron_layers[i]] = f_activations[i-1](neuron_inputs[k + neuron_layers[i]] +
                 read_biases[k + neuron_layers[i]]);
         }
@@ -129,5 +126,5 @@ void Network::train(double training_rate, int epochs, int batch_size, double **i
 
 void Network::update()
 {
-    std::memcpy(read_data, write_data, num_weights + num_neurons);
+    std::memcpy(read_data, write_data, sizeof(double) * (num_weights + num_neurons));
 }

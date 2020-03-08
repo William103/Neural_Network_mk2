@@ -16,6 +16,7 @@ architecture	./network.h	/^    int *architecture;$/;"	m	class:Network
 back_prop	./network.cpp	/^double Network::back_prop(double *input, double *output, double training_rate)$/;"	f	class:Network
 d_f_activations	./network.h	/^    double (**d_f_activations)(double);$/;"	m	class:Network
 d_f_cost	./network.h	/^    double (*d_f_cost)(double, double);$/;"	m	class:Network
+d_relu	./utils.h	/^double d_relu(double x) {$/;"	f
 d_sigmoid	./utils.h	/^double d_sigmoid(double x) {$/;"	f
 d_squared_error	./utils.h	/^double d_squared_error(double y_hat, double y) {$/;"	f
 deltas	./network.h	/^    double *deltas;$/;"	m	class:Network
@@ -32,6 +33,7 @@ prop	./network.cpp	/^double *Network::prop(double *input)$/;"	f	class:Network
 read_biases	./network.h	/^    double *read_biases;$/;"	m	class:Network
 read_data	./network.h	/^    double *read_data;$/;"	m	class:Network
 read_weights	./network.h	/^    double *read_weights;$/;"	m	class:Network
+relu	./utils.h	/^double relu(double x) {$/;"	f
 sigmoid	./utils.h	/^double sigmoid(double x) {$/;"	f
 squared_error	./utils.h	/^double squared_error(double y_hat, double y) {$/;"	f
 train	./network.cpp	/^void Network::train(double training_rate, int epochs, int batch_size, double **inputs, double **outputs, int n_inputs)$/;"	f	class:Network

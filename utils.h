@@ -15,3 +15,11 @@ double squared_error(double y_hat, double y) {
 double d_squared_error(double y_hat, double y) {
     return 2 * (y_hat - y);
 }
+
+double relu(double x) {
+    return x < 0 ? -1 * x : x;
+}
+
+double d_relu(double x) {
+    return x < 0 ? 0 : 1;
+}

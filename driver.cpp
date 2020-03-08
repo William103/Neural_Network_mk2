@@ -13,8 +13,8 @@ int main() {
     double   (*f_cost)(double, double)  =   &squared_error;
     double (*d_f_cost)(double, double)  = &d_squared_error;
     double random_limit = 5;
-    double training_rate = 1;
-    int epochs = 10;
+    double training_rate = 0.1;
+    int epochs = 5000;
     int batch_size = 4;
     int n_inputs = 4;
     int number_of_weights = 0;
