@@ -53,6 +53,9 @@ double *Network::prop(double *input)
                     activations[j + neuron_layers[i-1]] *
                     read_weights[weight_layers[i-1] + j * architecture[i] + k];
             } 
+            // TODO: In GDB, I found out this doesn't get executed for the final
+            // neuron, meaning that the output is always <something>, 0 no
+            // matter the input
             activations[k + neuron_layers[i]] = f_activations[i-1](neuron_inputs[k + neuron_layers[i]] +
                 read_biases[k + neuron_layers[i]]);
         }

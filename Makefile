@@ -4,6 +4,7 @@ OFILES=network.o
 CXXFLAGS=-g
 
 $(TARGET): $(OFILES) $(TARGET).o
+	ctags ./* -R
 	$(CXX) $(CXXFLAGS) -o $@ $(TARGET).o $(OFILES)
 
 %.o: %.cpp
@@ -12,7 +13,7 @@ $(TARGET): $(OFILES) $(TARGET).o
 PHONY: clean run all
 
 clean:
-	rm *.o $(TARGET)
+	rm *.o $(TARGET) tags
 
 run:
 	./$(TARGET)

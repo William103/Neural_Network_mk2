@@ -1,3 +1,4 @@
+#include <stdio.h>
 #include <iostream>
 #include <ctime>
 #include "utils.h"
@@ -11,7 +12,7 @@ int main() {
     double (*d_f_activations[])(double) = {&d_sigmoid, &d_sigmoid, &d_sigmoid};
     double   (*f_cost)(double, double)  =   &squared_error;
     double (*d_f_cost)(double, double)  = &d_squared_error;
-    double random_limit = 1;
+    double random_limit = 5;
     double training_rate = 1;
     int epochs = 10;
     int batch_size = 4;
