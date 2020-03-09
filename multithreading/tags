@@ -33,7 +33,7 @@ d_squared_error	./utils.h	/^double d_squared_error(double y_hat, double y) {$/;"
 deltas	./network.h	/^    double *deltas;$/;"	m	class:Network
 depth	./driver.cpp	/^int depth = 4;$/;"	v
 depth	./network.h	/^    int depth;$/;"	m	class:Network
-epochs	./driver.cpp	/^int epochs = 50000;$/;"	v
+epochs	./driver.cpp	/^int epochs = 500;$/;"	v
 f_activations	./driver.cpp	/^double (**f_activations)(double);$/;"	v
 f_activations	./network.h	/^    double (**f_activations)(double);$/;"	m	class:Network
 f_cost	./driver.cpp	/^double (*f_cost)(double, double);$/;"	v

@@ -7,7 +7,7 @@
 #include "barrier.h"
 
 int num_threads = 2;
-int epochs = 50000;
+int epochs = 500;
 int num_inputs = 4;
 int batch_size = 4;
 int depth = 4;
@@ -98,6 +98,8 @@ int main() {
 
     /* ----------------------------------------------------------------- */
 
+    delete[] mutexes;
+    delete[] architecture;
     delete[] ids;
     delete[] threads;
     delete[] read_data;
