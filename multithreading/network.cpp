@@ -71,8 +71,10 @@ double Network::back_prop(double *input, double *output, double training_rate)
     
         // TODO: Mutex stuff
         for (int m = 0; m < architecture[depth-2]; m++) {
+            p_thread_mutex_lock(&mutexes[weight_layers[depth-2] + m * architecture[depth-1] + i]);
             write_weights[weight_layers[depth-2] + m * architecture[depth-1] + i] -=
                 training_rate * activations[neuron_layers[depth-2] + m] * deltas[neuron_layers[depth-1]+i];
+            p_thread_mutex_unlock(&mutexes[weight_layers[depth-2] + m * architecture[depth-1] + i]);
         }
     }
     for (int i = depth - 2; i >= 0; i--) {
@@ -84,13 +86,17 @@ double Network::back_prop(double *input, double *output, double training_rate)
             if (i != 0) {
                 deltas[neuron_layers[i]+j] *= d_f_activations[i-1](neuron_inputs[neuron_layers[i]+j] +
                         read_biases[neuron_layers[i]+j]);
-                // TODO: Mutex stuff
+
+                p_thread_mutex_lock(&mutexes[num_weights + neuron_layers[i] + j]);
                 write_biases[neuron_layers[i]+j] -= training_rate * deltas[neuron_layers[i]+j];
+                p_thread_mutex_unlock(&mutexes[num_weights + neuron_layers[i] + j]);
                 
                 // TODO: Mutex stuff
                 for (int m = 0; m < architecture[i-1]; m++) {
+                    p_thread_mutex_lock(&mutexes[weight_layers[i-1] + m * architecture[i] + j]);
                     write_weights[weight_layers[i-1] + m * architecture[i] + j] -=
                         training_rate * activations[neuron_layers[i-1] + m] * deltas[neuron_layers[i]+j];
+                    p_thread_mutex_unlock(&mutexes[weight_layers[i-1] + m * architecture[i] + j]);
                 }
             }
         }

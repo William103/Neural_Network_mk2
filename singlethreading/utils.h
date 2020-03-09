@@ -17,7 +17,7 @@ double d_squared_error(double y_hat, double y) {
 }
 
 double relu(double x) {
-    return x < 0 ? -1 * x : x;
+    return x < 0 ? 0 : x;
 }
 
 double d_relu(double x) {

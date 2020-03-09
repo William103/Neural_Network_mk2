@@ -110,11 +110,11 @@ void Network::train(double training_rate, int epochs, int batch_size, double **i
         for (int j = 0; j < n_inputs; j++) {
             y_hat = prop(inputs[j]);
             for (int k = 0; k < architecture[depth - 1]; k++) {
-                if (i == epochs - 1)
-                    std::cout << y_hat[k] << ' ';
+                if (i == epochs - 1) {}
+                    //std::cout << y_hat[k] << ' ';
             }
-            if (i == epochs - 1)
-                std::cout << std::endl;
+            if (i == epochs - 1) {}
+                //std::cout << std::endl;
 
             error += back_prop(inputs[j], outputs[j], training_rate);
             if ((j+1) % batch_size == 0) {

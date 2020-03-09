@@ -26,6 +26,9 @@ extern const double outputs[num_inputs][architecture[depth-1]];
 extern double *read_data;
 extern double *write_data;
 
+extern p_thread_mutex_t *mutexes;
+extern p_thread_barrier_t barrier;
+
 // The thread function to be used in pthread_create
 void *thread_func(void *ID);
 
