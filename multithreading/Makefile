@@ -1,11 +1,12 @@
 TARGET=driver
 CXX=g++
-OFILES=network.o
+OFILES=network.o threads.o
+LIBS=-lpthread
 CXXFLAGS=-g
 
 $(TARGET): $(OFILES) $(TARGET).o
-	ctags . -R
-	$(CXX) $(CXXFLAGS) -o $@ $(TARGET).o $(OFILES)
+	ctags ./*
+	$(CXX) $(CXXFLAGS) -o $@ $(TARGET).o $(OFILES) $(LIBS)
 
 %.o: %.cpp
 	$(CXX) $(CXXFLAGS) -c -o $@ $<

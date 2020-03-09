@@ -7,27 +7,28 @@
 #ifndef THREADS_H
 #define THREADS_H
 
-#include <pthreads.h>
+#include <pthread.h>
 
-extern const int num_threads;
-extern const int epochs;
-extern const int num_inputs;
-extern const int batch_size;
-extern const int depth;
-extern const int architecture[depth];
-extern const double (*(f_activations[depth-1]))(double, double);
-extern const double (*(d_f_activations[depth-1]))(double, double);
-extern const double (*f_cost)(double, double);
-extern const double (*d_f_cost)(double, double);
-extern const double training_rate;
-extern const double inputs[num_inputs][architecture[0]];
-extern const double outputs[num_inputs][architecture[depth-1]];
+extern int num_threads;
+extern int epochs;
+extern int num_inputs;
+extern int batch_size;
+extern int depth;
+extern int *architecture;
+extern double random_limit;
+extern double (**f_activations)(double);
+extern double (**d_f_activations)(double);
+extern double (*f_cost)(double, double);
+extern double (*d_f_cost)(double, double);
+extern double training_rate;
+extern double **inputs;
+extern double **outputs;
 
 extern double *read_data;
 extern double *write_data;
 
-extern p_thread_mutex_t *mutexes;
-extern p_thread_barrier_t barrier;
+extern pthread_mutex_t *mutexes;
+extern pthread_barrier_t barrier;
 
 // The thread function to be used in pthread_create
 void *thread_func(void *ID);

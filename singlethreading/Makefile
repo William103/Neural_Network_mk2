@@ -4,7 +4,7 @@ OFILES=network.o
 CXXFLAGS=-g
 
 $(TARGET): $(OFILES) $(TARGET).o
-	ctags ./* -R
+	ctags ./*
 	$(CXX) $(CXXFLAGS) -o $@ $(TARGET).o $(OFILES)
 
 %.o: %.cpp
