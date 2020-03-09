@@ -60,8 +60,7 @@ public:
     // returns final error
     void train(double training_rate, int epochs, int batch_size, double **inputs, double **outputs, int n_inputs);
 
-    int num_neurons;
-    int num_weights;
+    void update();
 
 private:
     // array of ints representing the structure of the network
@@ -106,8 +105,9 @@ private:
 
     int *weight_layers;
     int *neuron_layers;
+    int num_neurons;
+    int num_weights;
 
-    void update();
 };
 
 #endif

@@ -11,6 +11,7 @@ NETWORK_H	./network.h	2;"	d
 Network	./network.cpp	/^Network::Network(int *architecture, int depth, double (**f_activations)(double),$/;"	f	class:Network
 Network	./network.h	/^class Network$/;"	c
 OFILES	./Makefile	/^OFILES=network.o threads.o$/;"	m
+PTHREAD_BARRIER_H_	./barrier.h	4;"	d
 TARGET	./Makefile	/^TARGET=driver$/;"	m
 THREADS_H	./threads.h	8;"	d
 activation_pointer	./driver.cpp	/^typedef double (*activation_pointer)(double);$/;"	t	file:
@@ -20,6 +21,8 @@ architecture	./network.h	/^    int *architecture;$/;"	m	class:Network
 back_prop	./network.cpp	/^double Network::back_prop(double *input, double *output, double training_rate)$/;"	f	class:Network
 barrier	./driver.cpp	/^pthread_barrier_t barrier;$/;"	v
 batch_size	./driver.cpp	/^int batch_size = 4;$/;"	v
+cond	./barrier.h	/^    pthread_cond_t cond;$/;"	m	struct:__anon1
+count	./barrier.h	/^    int count;$/;"	m	struct:__anon1
 d_f_activations	./driver.cpp	/^double (**d_f_activations)(double);$/;"	v
 d_f_activations	./network.h	/^    double (**d_f_activations)(double);$/;"	m	class:Network
 d_f_cost	./driver.cpp	/^double (*d_f_cost)(double, double);$/;"	v
@@ -38,6 +41,7 @@ f_cost	./network.h	/^    double (*f_cost)(double, double);$/;"	m	class:Network
 inputs	./driver.cpp	/^double **inputs;$/;"	v
 layers	./network.h	/^    double **layers;$/;"	m	class:Network
 main	./driver.cpp	/^int main() {$/;"	f
+mutex	./barrier.h	/^    pthread_mutex_t mutex;$/;"	m	struct:__anon1
 mutexes	./driver.cpp	/^pthread_mutex_t *mutexes;$/;"	v
 neuron_inputs	./network.h	/^    double *neuron_inputs;$/;"	m	class:Network
 neuron_layers	./network.h	/^    int *neuron_layers;$/;"	m	class:Network
@@ -47,6 +51,11 @@ num_threads	./driver.cpp	/^int num_threads = 2;$/;"	v
 num_weights	./network.h	/^    int num_weights;$/;"	m	class:Network
 outputs	./driver.cpp	/^double **outputs;$/;"	v
 prop	./network.cpp	/^double *Network::prop(double *input)$/;"	f	class:Network
+pthread_barrier_destroy	./barrier.h	/^int pthread_barrier_destroy(pthread_barrier_t *barrier)$/;"	f
+pthread_barrier_init	./barrier.h	/^int pthread_barrier_init(pthread_barrier_t *barrier, const pthread_barrierattr_t *attr, unsigned int count)$/;"	f
+pthread_barrier_t	./barrier.h	/^} pthread_barrier_t;$/;"	t	typeref:struct:__anon1
+pthread_barrier_wait	./barrier.h	/^int pthread_barrier_wait(pthread_barrier_t *barrier)$/;"	f
+pthread_barrierattr_t	./barrier.h	/^typedef int pthread_barrierattr_t;$/;"	t
 random_limit	./driver.cpp	/^double random_limit = 5;$/;"	v
 read_biases	./network.h	/^    double *read_biases;$/;"	m	class:Network
 read_data	./driver.cpp	/^double *read_data;$/;"	v
@@ -58,6 +67,7 @@ squared_error	./utils.h	/^double squared_error(double y_hat, double y) {$/;"	f
 thread_func	./threads.cpp	/^void *thread_func(void *ID_arg) {$/;"	f
 train	./network.cpp	/^void Network::train(double training_rate, int epochs, int batch_size, double **inputs, double **outputs, int n_inputs)$/;"	f	class:Network
 training_rate	./driver.cpp	/^double training_rate = 0.1;$/;"	v
+tripCount	./barrier.h	/^    int tripCount;$/;"	m	struct:__anon1
 update	./network.cpp	/^void Network::update()$/;"	f	class:Network
 weight_layers	./network.h	/^    int *weight_layers;$/;"	m	class:Network
 write_biases	./network.h	/^    double *write_biases;$/;"	m	class:Network

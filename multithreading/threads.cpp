@@ -1,6 +1,7 @@
 #include "threads.h"
 #include "network.h"
 #include <cstring>
+#include <iostream>
 
 void *thread_func(void *ID_arg) {
     int ID = *((int*)ID_arg);
@@ -17,12 +18,10 @@ void *thread_func(void *ID_arg) {
         for (int j = 0; j < n_inputs; j++) {
             y_hat = net.prop(thread_inputs[j]);
 
-            //error += net.back_prop(thread_inputs[j], thread_outputs[j], training_rate);
+            net.back_prop(thread_inputs[j], thread_outputs[j], training_rate);
             if ((j+1) % thread_batch_size == 0) {
                 pthread_barrier_wait(&barrier);
-                if (ID == 0) {
-                    std::memcpy(read_data, write_data, sizeof(double) * (net.num_neurons + net.num_weights));
-                }
+                net.update();
                 pthread_barrier_wait(&barrier);
             }
         }

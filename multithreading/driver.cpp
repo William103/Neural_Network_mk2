@@ -1,6 +1,6 @@
-#include <stdio.h>
 #include <iostream>
 #include <ctime>
+#include <cstdlib>
 #include "utils.h"
 #include "network.h"
 #include "threads.h"
@@ -30,6 +30,7 @@ pthread_barrier_t barrier;
 typedef double (*activation_pointer)(double);
 
 int main() {
+    std::srand(time(NULL));
     architecture = new int[4] { 2, 5, 5, 1 };
     f_activations = new activation_pointer[3] { sigmoid, sigmoid, sigmoid };
     d_f_activations = new activation_pointer[3] { d_sigmoid, d_sigmoid, d_sigmoid };
@@ -93,6 +94,7 @@ int main() {
         y_hat = net.prop(inputs[i]);
         std::cout << inputs[i][0] << ' ' << inputs[i][1] << ": " << y_hat[0] << std::endl;
     }
+
 
     /* ----------------------------------------------------------------- */
 
