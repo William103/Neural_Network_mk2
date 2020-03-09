@@ -4,6 +4,7 @@
 #include "utils.h"
 #include "network.h"
 #include "threads.h"
+#include "barrier.h"
 
 int num_threads = 2;
 int epochs = 50000;
@@ -90,7 +91,7 @@ int main() {
     double *y_hat;
     for (int i = 0; i < 4; i++) {
         y_hat = net.prop(inputs[i]);
-        std::cout << inputs[i][0] << ' ' << inputs[i][1] << ': ' << y_hat[0] << std::endl;
+        std::cout << inputs[i][0] << ' ' << inputs[i][1] << ": " << y_hat[0] << std::endl;
     }
 
     /* ----------------------------------------------------------------- */
