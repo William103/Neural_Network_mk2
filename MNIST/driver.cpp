@@ -11,8 +11,9 @@
 void generate_inputs();
 
 int num_threads = 10;
-int epochs = 1;
+int epochs = 2500;
 int num_inputs = 60000;
+int num_tests = 10000;
 int batch_size = 100;
 int depth = 5;
 int *architecture;
@@ -87,35 +88,40 @@ int main() {
     }
 
     Network net(architecture, depth, f_activations, d_f_activations, f_cost, d_f_cost, read_data, write_data);
+
     double *y_hat;
     unsigned long correct = 0;
-    for (int i = 0; i < num_inputs; i++) {
-        y_hat = net.prop(inputs[i]);
+    for (int i = 0; i < num_tests; i++) {
+        y_hat = net.prop(test_inputs[i]);
         std::cout << std::fixed << std::setprecision(4);
-        std::cout << "Inputs: ";
+        //std::cout << "Inputs: ";
+        /*
         for (int j = 0; j < architecture[0]; j++) {
             if (inputs[i][j] >= 0) std::cout << ' ';
             std::cout << inputs[i][j] << ' ';
         }
-        std::cout << "\t\tPredicted Output: ";
+        */
+        //std::cout << "\t\tPredicted Output: ";
         for (int j = 0; j < architecture[depth-1]; j++) {
-            std::cout << y_hat[j] << ' ';
+            //std::cout << y_hat[j] << ' ';
         }
-        std::cout << "\t\tActual Output: ";
+        //std::cout << "\t\tActual Output: ";
         for (int j = 0; j < architecture[depth-1]; j++) {
-            std::cout << outputs[i][j] << ' ';
+            //std::cout << outputs[i][j] << ' ';
         }
-        std::cout << "\t\t";
+        //std::cout << "\t\t";
+        double max = -100;
+        int maxdex = -1;
         for (int j = 0; j < architecture[depth-1]; j++) {
-            if (outputs[i][j] > 0.5 && y_hat[j] > 0.5 || outputs[i][j] < 0.5 && y_hat[j] < 0.5) {
-                std::cout << "  correct ";
-                correct++;
-            } else
-                std::cout << "incorrect ";
+            if (y_hat[j] > max) {
+                max = y_hat[j];
+                maxdex = j;
+            }
         }
-        std::cout << std::endl;
+        if (test_outputs[i][maxdex]) correct++;
+        //std::cout << std::endl;
     }
-    std::cout << (double)correct / num_inputs * 50 << "% Correct" << std::endl;
+    std::cout << (double)correct / num_tests << " Accuracy" << std::endl;
 
 
     /* ----------------------------------------------------------------- */

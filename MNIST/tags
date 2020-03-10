@@ -20,7 +20,7 @@ architecture	./driver.cpp	/^int *architecture;$/;"	v
 architecture	./network.h	/^    int *architecture;$/;"	m	class:Network
 back_prop	./network.cpp	/^double Network::back_prop(double *input, double *output, double training_rate)$/;"	f	class:Network
 barrier	./driver.cpp	/^pthread_barrier_t barrier;$/;"	v
-batch_size	./driver.cpp	/^int batch_size = 50;$/;"	v
+batch_size	./driver.cpp	/^int batch_size = 100;$/;"	v
 cond	./barrier.h	/^    pthread_cond_t cond;$/;"	m	struct:__anon1
 count	./barrier.h	/^    int count;$/;"	m	struct:__anon1
 d_f_activations	./driver.cpp	/^double (**d_f_activations)(double);$/;"	v
@@ -33,7 +33,7 @@ d_squared_error	./utils.h	/^double d_squared_error(double y_hat, double y) {$/;"
 deltas	./network.h	/^    double *deltas;$/;"	m	class:Network
 depth	./driver.cpp	/^int depth = 5;$/;"	v
 depth	./network.h	/^    int depth;$/;"	m	class:Network
-epochs	./driver.cpp	/^int epochs = 100;$/;"	v
+epochs	./driver.cpp	/^int epochs = 2500;$/;"	v
 f_activations	./driver.cpp	/^double (**f_activations)(double);$/;"	v
 f_activations	./network.h	/^    double (**f_activations)(double);$/;"	m	class:Network
 f_cost	./driver.cpp	/^double (*f_cost)(double, double);$/;"	v
@@ -48,6 +48,7 @@ neuron_inputs	./network.h	/^    double *neuron_inputs;$/;"	m	class:Network
 neuron_layers	./network.h	/^    int *neuron_layers;$/;"	m	class:Network
 num_inputs	./driver.cpp	/^int num_inputs = 60000;$/;"	v
 num_neurons	./network.h	/^    int num_neurons;$/;"	m	class:Network
+num_tests	./driver.cpp	/^int num_tests = 10000;$/;"	v
 num_threads	./driver.cpp	/^int num_threads = 10;$/;"	v
 num_weights	./network.h	/^    int num_weights;$/;"	m	class:Network
 outputs	./driver.cpp	/^double **outputs;$/;"	v
