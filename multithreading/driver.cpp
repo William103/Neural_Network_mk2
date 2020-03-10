@@ -1,4 +1,5 @@
 #include <iostream>
+#include <iomanip>
 #include <ctime>
 #include <cstdlib>
 #include "utils.h"
@@ -6,11 +7,15 @@
 #include "threads.h"
 #include "barrier.h"
 
-int num_threads = 2;
-int epochs = 500;
-int num_inputs = 4;
-int batch_size = 4;
-int depth = 4;
+void generate_inputs();
+
+#define NUM_INPUTS 10000
+
+int num_threads = 10;
+int epochs = 100;
+int num_inputs = NUM_INPUTS;
+int batch_size = 50;
+int depth = 5;
 int *architecture;
 double random_limit = 5;
 double (**f_activations)(double);
@@ -31,21 +36,11 @@ typedef double (*activation_pointer)(double);
 
 int main() {
     std::srand(time(NULL));
-    architecture = new int[4] { 2, 5, 5, 1 };
-    f_activations = new activation_pointer[3] { sigmoid, sigmoid, sigmoid };
-    d_f_activations = new activation_pointer[3] { d_sigmoid, d_sigmoid, d_sigmoid };
+    architecture = new int[depth] { 2, 10, 10, 10, 2 };
+    f_activations = new activation_pointer[depth] { sigmoid, sigmoid, sigmoid, sigmoid };
+    d_f_activations = new activation_pointer[depth] { d_sigmoid, d_sigmoid, d_sigmoid, d_sigmoid };
     f_cost = squared_error;
     d_f_cost = d_squared_error;
-    inputs = new double*[4];
-    inputs[0] = new double[2] { 0, 0 };
-    inputs[1] = new double[2] { 1, 0 };
-    inputs[2] = new double[2] { 0, 1 };
-    inputs[3] = new double[2] { 1, 1 };
-    outputs = new double*[4];
-    outputs[0] = new double[1] { 0 };
-    outputs[1] = new double[1] { 1 };
-    outputs[2] = new double[1] { 1 };
-    outputs[3] = new double[1] { 0 };
 
     int num_weights = 0;
     int num_neurons = architecture[0];
@@ -53,6 +48,8 @@ int main() {
         num_neurons += architecture[i];
         num_weights += architecture[i-1] * architecture[i];
     }
+
+    generate_inputs();
 
     read_data = new double[num_neurons + num_weights];
     write_data = new double[num_neurons + num_weights];
@@ -90,10 +87,34 @@ int main() {
 
     Network net(architecture, depth, f_activations, d_f_activations, f_cost, d_f_cost, read_data, write_data);
     double *y_hat;
-    for (int i = 0; i < 4; i++) {
+    unsigned long correct = 0;
+    for (int i = 0; i < NUM_INPUTS; i++) {
         y_hat = net.prop(inputs[i]);
-        std::cout << inputs[i][0] << ' ' << inputs[i][1] << ": " << y_hat[0] << std::endl;
+        std::cout << std::fixed << std::setprecision(4);
+        std::cout << "Inputs: ";
+        for (int j = 0; j < architecture[0]; j++) {
+            if (inputs[i][j] >= 0) std::cout << ' ';
+            std::cout << inputs[i][j] << ' ';
+        }
+        std::cout << "\t\tPredicted Output: ";
+        for (int j = 0; j < architecture[depth-1]; j++) {
+            std::cout << y_hat[j] << ' ';
+        }
+        std::cout << "\t\tActual Output: ";
+        for (int j = 0; j < architecture[depth-1]; j++) {
+            std::cout << outputs[i][j] << ' ';
+        }
+        std::cout << "\t\t";
+        for (int j = 0; j < architecture[depth-1]; j++) {
+            if (outputs[i][j] > 0.5 && y_hat[j] > 0.5 || outputs[i][j] < 0.5 && y_hat[j] < 0.5) {
+                std::cout << "  correct ";
+                correct++;
+            } else
+                std::cout << "incorrect ";
+        }
+        std::cout << std::endl;
     }
+    std::cout << (double)correct / num_inputs * 50 << "% Correct" << std::endl;
 
 
     /* ----------------------------------------------------------------- */
@@ -112,4 +133,21 @@ int main() {
     }
     delete[] inputs;
     delete[] outputs;
+}
+
+void generate_inputs() {
+    inputs = new double*[NUM_INPUTS];
+    outputs = new double*[NUM_INPUTS];
+    for (int i = 0; i < NUM_INPUTS; i++) {
+        inputs[i] = new double[2];
+        outputs[i] = new double[2];
+        inputs[i][0] = std::rand() / (double) RAND_MAX * 2 - 1;
+        inputs[i][1] = std::rand() / (double) RAND_MAX * 2 - 1;
+        if (inputs[i][0] * inputs[i][0] + inputs[i][1] * inputs[i][1] < 1) {
+            outputs[i][0] = 1;
+        } else outputs[i][0] = 0;
+        if (inputs[i][0] < 0.5 && inputs[i][0] > -0.5 && inputs[i][1] < 0.5 && inputs[i][1] > -0.5) {
+            outputs[i][1] = 1;
+        } else outputs[i][1] = 0;
+    }
 }

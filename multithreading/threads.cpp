@@ -2,9 +2,14 @@
 #include "network.h"
 #include <cstring>
 #include <iostream>
+#include <fstream>
+#include <string>
 
 void *thread_func(void *ID_arg) {
+    std::ofstream file;
     int ID = *((int*)ID_arg);
+    std::string filename = "log" + std::to_string(ID) + ".out";
+    file.open(filename);
     Network net(architecture, depth, f_activations, d_f_activations, f_cost, d_f_cost, read_data, write_data);
 
     double *y_hat;
@@ -14,7 +19,7 @@ void *thread_func(void *ID_arg) {
     double **thread_inputs = inputs + ID * num_inputs / num_threads;
     double **thread_outputs = outputs + ID * num_inputs / num_threads;
     for (int i = 0; i < epochs; i++) {
-        //error = 0;
+        error = 0;
         for (int j = 0; j < n_inputs; j++) {
             y_hat = net.prop(thread_inputs[j]);
 
@@ -25,8 +30,10 @@ void *thread_func(void *ID_arg) {
                 pthread_barrier_wait(&barrier);
             }
         }
-        //error /= n_inputs;
-        //if (i == epochs - 1)
-            //std::cout << "Epoch #" << i << " Error: " << error << std::endl;
+        error /= n_inputs;
+        if (!(i % 100)){}
+            file << "Epoch #" << i << " Error: " << error << '\n';
     }
+
+    file.close();
 }
