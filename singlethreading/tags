@@ -7,6 +7,7 @@
 CXX	./Makefile	/^CXX=g++$/;"	m
 CXXFLAGS	./Makefile	/^CXXFLAGS=-g$/;"	m
 NETWORK_H	./network.h	2;"	d
+NUM_INPUTS	./driver.cpp	10;"	d	file:
 Network	./network.cpp	/^Network::Network(int *architecture, int depth, double (**f_activations)(double),$/;"	f	class:Network
 Network	./network.h	/^class Network$/;"	c
 OFILES	./Makefile	/^OFILES=network.o$/;"	m
@@ -23,12 +24,15 @@ deltas	./network.h	/^    double *deltas;$/;"	m	class:Network
 depth	./network.h	/^    int depth;$/;"	m	class:Network
 f_activations	./network.h	/^    double (**f_activations)(double);$/;"	m	class:Network
 f_cost	./network.h	/^    double (*f_cost)(double, double);$/;"	m	class:Network
+generate_inputs	./driver.cpp	/^void generate_inputs() {$/;"	f
+inputs	./driver.cpp	/^double **inputs, **outputs;$/;"	v
 layers	./network.h	/^    double **layers;$/;"	m	class:Network
 main	./driver.cpp	/^int main() {$/;"	f
 neuron_inputs	./network.h	/^    double *neuron_inputs;$/;"	m	class:Network
 neuron_layers	./network.h	/^    int *neuron_layers;$/;"	m	class:Network
 num_neurons	./network.h	/^    int num_neurons;$/;"	m	class:Network
 num_weights	./network.h	/^    int num_weights;$/;"	m	class:Network
+outputs	./driver.cpp	/^double **inputs, **outputs;$/;"	v
 prop	./network.cpp	/^double *Network::prop(double *input)$/;"	f	class:Network
 read_biases	./network.h	/^    double *read_biases;$/;"	m	class:Network
 read_data	./network.h	/^    double *read_data;$/;"	m	class:Network
