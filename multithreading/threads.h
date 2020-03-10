@@ -30,6 +30,8 @@ extern double *write_data;
 extern pthread_mutex_t *mutexes;
 extern pthread_barrier_t barrier;
 
+extern bool shuffle;
+
 // The thread function to be used in pthread_create
 void *thread_func(void *ID);
 
