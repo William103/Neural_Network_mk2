@@ -1,6 +1,7 @@
 #include "threads.h"
 #include "network.h"
 #include <cstring>
+#include <algorithm>
 
 void *thread_func(void *ID_arg) {
     int ID = *((int*)ID_arg);
