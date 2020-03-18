@@ -31,6 +31,8 @@ double **test_outputs;
 double *read_data;
 double *write_data;
 
+bool shuffle = true;
+
 pthread_mutex_t *mutexes;
 pthread_barrier_t barrier;
 
