@@ -10,11 +10,11 @@
 
 void generate_inputs();
 
-int num_threads = 10;
-int epochs = 2500;
+int num_threads = 4;
+int epochs = 20;
 int num_inputs = 60000;
 int num_tests = 10000;
-int batch_size = 100;
+int batch_size = 1000;
 int depth = 5;
 int *architecture;
 double random_limit = 5;
