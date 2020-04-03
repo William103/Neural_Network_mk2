@@ -1,6 +1,7 @@
 #include "threads.h"
 #include "network.h"
 #include <cstring>
+#include <algorithm>
 
 void *thread_func(void *ID_arg) {
     int ID = *((int*)ID_arg);
@@ -25,6 +26,21 @@ void *thread_func(void *ID_arg) {
                 net.update();
                 pthread_barrier_wait(&barrier);
             }
+        }
+        if (ID == 0 && shuffle) {
+            double **inputs2 = new double*[num_inputs];
+            double **outputs2 = new double*[num_inputs];
+            std::memcpy(inputs2, inputs, num_inputs * sizeof(double *));
+            std::memcpy(outputs2, outputs, num_inputs * sizeof(double *));
+            int *indices = new int[num_inputs];
+            for (int j = 0; j < num_inputs; j++) indices[j] = j;
+            std::random_shuffle(indices, indices + num_inputs);
+            for (int j = 0; j < num_inputs; j++) {
+                inputs[j] = inputs2[indices[j]];
+                outputs[j] = outputs2[indices[j]];
+            }
+            delete[] inputs2;
+            delete[] outputs2;
         }
         //error /= n_inputs;
         //if (!(i % 100))

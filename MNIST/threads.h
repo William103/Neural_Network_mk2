@@ -24,6 +24,8 @@ extern double training_rate;
 extern double **inputs;
 extern double **outputs;
 
+extern bool shuffle;
+
 extern double *read_data;
 extern double *write_data;
 
